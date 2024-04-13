@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.querySelector('form');
+            loginForm.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const email = loginForm.querySelector('input[name="username"]').value;
+                try {
+                    const response = await axios.post('http://localhost:3000/login', {
+                        email,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if (response.status === 200) {
+                        alert("Otp Sent");
+                        window.open("otp.html");
+                    } else {
+                        alert(response.data);
+                    }
+                } catch (error) {
+                    console.error('Error during login:', error);
+                    alert('An error occurred during login. Please try again.');
+                }
+            });
+        });
+    </script>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+        }
+        fieldset{
+            margin: auto;
+            width: 350px;
+        }
+        input{
+            height: 30px;
+            margin-top: 20px;
+            width: 300px;
+            margin-left: 20px;
+        }
+        button{
+            width: 100px;
+            margin-left: 125px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <fieldset>
+        <h1 style="text-align: center;">Login</h1>
+        <form method="POST" action="/login">
+            <input name="username" placeholder="enter your email"><br>
+            <button style="margin-top: 20px;" type="submit">Send Otp</button>
+        </form>
+    </fieldset>
+</body>
+</html>
